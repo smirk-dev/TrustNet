@@ -1,2 +1,2 @@
 # TrustNet
-AI to rectify the spread of misinformation
+AI to rectify the spread of misinform
