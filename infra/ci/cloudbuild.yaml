@@ -1,0 +1,102 @@
+steps:
+  # Build and push API service
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/trustnet/api:${SHORT_SHA}'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/trustnet/api:latest'
+      - './services/api'
+    id: 'build-api'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/trustnet/api'
+    id: 'push-api'
+    waitFor: ['build-api']
+
+  # Deploy API to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'trustnet-api'
+      - '--image'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/trustnet/api:${SHORT_SHA}'
+      - '--region'
+      - '${_REGION}'
+      - '--service-account'
+      - 'trustnet-api@${PROJECT_ID}.iam.gserviceaccount.com'
+      - '--set-env-vars'
+      - 'GOOGLE_CLOUD_PROJECT_ID=${PROJECT_ID},ENVIRONMENT=${_ENVIRONMENT}'
+      - '--allow-unauthenticated'
+      - '--max-instances'
+      - '1000'
+      - '--cpu'
+      - '2'
+      - '--memory'
+      - '4Gi'
+      - '--timeout'
+      - '300'
+    id: 'deploy-api'
+    waitFor: ['push-api']
+
+  # Build and push worker service
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/trustnet/worker:${SHORT_SHA}'
+      - '-t'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/trustnet/worker:latest'
+      - './services/workers'
+    id: 'build-worker'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/trustnet/worker'
+    id: 'push-worker'
+    waitFor: ['build-worker']
+
+  # Deploy worker to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'trustnet-worker'
+      - '--image'
+      - '${_REGION}-docker.pkg.dev/${PROJECT_ID}/trustnet/worker:${SHORT_SHA}'
+      - '--region'
+      - '${_REGION}'
+      - '--service-account'
+      - 'trustnet-worker@${PROJECT_ID}.iam.gserviceaccount.com'
+      - '--set-env-vars'
+      - 'GOOGLE_CLOUD_PROJECT_ID=${PROJECT_ID},ENVIRONMENT=${_ENVIRONMENT}'
+      - '--no-allow-unauthenticated'
+      - '--max-instances'
+      - '100'
+      - '--cpu'
+      - '4'
+      - '--memory'
+      - '8Gi'
+      - '--timeout'
+      - '3600'
+    id: 'deploy-worker'
+    waitFor: ['push-worker']
+
+substitutions:
+  _REGION: 'asia-south1'
+  _ENVIRONMENT: 'dev'
+
+options:
+  machineType: 'E2_HIGHCPU_8'
+  substitution_option: 'ALLOW_LOOSE'
+
+timeout: '1800s'
