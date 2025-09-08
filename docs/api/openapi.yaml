@@ -1,0 +1,390 @@
+openapi: 3.1.0
+info:
+  title: TrustNet API
+  description: AI-powered misinformation detection and fact-checking service
+  version: 1.0.0
+  contact:
+    name: TrustNet Team
+    email: api@trustnet.dev
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.trustnet.dev/v1
+    description: Production server
+  - url: https://staging-api.trustnet.dev/v1
+    description: Staging server
+  - url: http://localhost:8080/v1
+    description: Development server
+
+security:
+  - bearerAuth: []
+  - apiKey: []
+
+paths:
+  /health:
+    get:
+      summary: Health check endpoint
+      operationId: healthCheck
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy]
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+
+  /analyze:
+    post:
+      summary: Submit content for misinformation analysis
+      operationId: analyzeContent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalysisRequest'
+            examples:
+              text_only:
+                summary: Simple text analysis
+                value:
+                  text: "वैक्सीन में माइक्रोचिप्स होती हैं"
+                  language: "hi"
+              with_urls:
+                summary: Analysis with URLs
+                value:
+                  text: "Breaking: Major earthquake predicted for tomorrow"
+                  urls: ["https://example.com/fake-news"]
+                  language: "en"
+                  priority: "high"
+      responses:
+        '200':
+          description: Analysis completed (synchronous)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisResult'
+        '202':
+          description: Analysis queued (asynchronous)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisQueued'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimit'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /claims/{claimId}:
+    get:
+      summary: Retrieve claim analysis results
+      operationId: getClaim
+      parameters:
+        - name: claimId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique claim identifier
+      responses:
+        '200':
+          description: Claim found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimResult'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /feedback:
+    post:
+      summary: Submit feedback on verdict accuracy
+      operationId: submitFeedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRequest'
+      responses:
+        '201':
+          description: Feedback recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback_id:
+                    type: string
+                    format: uuid
+                  message:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    AnalysisRequest:
+      type: object
+      required: [text]
+      properties:
+        text:
+          type: string
+          minLength: 10
+          maxLength: 10000
+          description: Content to analyze for misinformation
+        urls:
+          type: array
+          maxItems: 5
+          items:
+            type: string
+            format: uri
+          description: URLs referenced in the content
+        images:
+          type: array
+          maxItems: 3
+          items:
+            type: string
+            format: uri
+          description: Image URLs for visual analysis
+        language:
+          type: string
+          enum: [hi, bn, te, mr, ta, kn, ml, gu, or, pa, ur, en]
+          description: Primary language of the content
+        source_type:
+          type: string
+          enum: [social_media, news, messaging, email, web]
+          description: Platform where content originated
+        priority:
+          type: string
+          enum: [low, normal, high]
+          default: normal
+          description: Processing priority level
+
+    AnalysisResult:
+      type: object
+      properties:
+        claim_id:
+          type: string
+          format: uuid
+        verdict:
+          $ref: '#/components/schemas/Verdict'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/Evidence'
+        processing_time_ms:
+          type: integer
+          description: Total processing time in milliseconds
+        grounding_coverage:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Percentage of explanation grounded in evidence
+
+    AnalysisQueued:
+      type: object
+      properties:
+        claim_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [queued, processing]
+        estimated_completion:
+          type: string
+          format: date-time
+        check_url:
+          type: string
+          format: uri
+          description: URL to check analysis status
+
+    ClaimResult:
+      type: object
+      properties:
+        claim_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+        claim:
+          $ref: '#/components/schemas/Claim'
+        verdict:
+          $ref: '#/components/schemas/Verdict'
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/Evidence'
+        processing_completed_at:
+          type: string
+          format: date-time
+
+    Claim:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        text:
+          type: string
+        language:
+          type: string
+        source_type:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        pii_redacted:
+          type: boolean
+
+    Verdict:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        rating:
+          type: string
+          enum: [True, False, Mixture, Unproven, Insufficient_Evidence]
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        rationale:
+          type: string
+          description: Detailed explanation with evidence citations
+        education_tips:
+          type: array
+          items:
+            type: string
+          description: Media literacy guidance for users
+        model_version:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    Evidence:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        snippet:
+          type: string
+          description: Relevant text excerpt from source
+        source_url:
+          type: string
+          format: uri
+        source_title:
+          type: string
+        relevance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        evidence_type:
+          type: string
+          enum: [supporting, refuting, contextual, neutral]
+
+    FeedbackRequest:
+      type: object
+      required: [verdict_id, user_rating, feedback_type]
+      properties:
+        verdict_id:
+          type: string
+          format: uuid
+        user_rating:
+          type: string
+          enum: [accurate, inaccurate, partially_accurate]
+        feedback_type:
+          type: string
+          enum: [rating_disagreement, missing_evidence, poor_explanation, factual_error]
+        comments:
+          type: string
+          maxLength: 1000
+        user_expertise:
+          type: string
+          enum: [expert, knowledgeable, general_public]
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error category
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+          description: Field-specific validation errors
+
+  responses:
+    BadRequest:
+      description: Invalid request format
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    RateLimit:
+      description: Rate limit exceeded
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+          description: Seconds until rate limit resets
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
