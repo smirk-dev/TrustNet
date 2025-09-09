@@ -11,8 +11,12 @@ const { DlpServiceClient } = require('@google-cloud/dlp');
 
 const logger = require('./utils/logger');
 const { validateAnalysisRequest } = require('./middleware/validation');
-const { authMiddleware } = require('./middleware/auth');
+const { authMiddleware, optionalAuth } = require('./middleware/auth');
 const { rateLimitMiddleware } = require('./middleware/rateLimit');
+
+// Import new MVP feature routes
+const verificationRoutes = require('./routes/verification');
+const educationRoutes = require('./routes/education');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -37,9 +41,19 @@ app.get('/health', (req, res) => {
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    version: process.env.SERVICE_VERSION || '1.0.0'
+    version: process.env.SERVICE_VERSION || '1.0.0',
+    features: {
+      verification_engine: true,
+      quarantine_room: true,
+      proactive_feed: true,
+      no_login_required: true
+    }
   });
 });
+
+// MVP Feature Routes (no authentication required for friction-free experience)
+app.use('/v1', optionalAuth, verificationRoutes);  // Verification Engine + Quarantine Room
+app.use('/v1', optionalAuth, educationRoutes);     // Proactive Homepage Feed
 
 // Submit content for analysis
 app.post('/v1/analyze', 
