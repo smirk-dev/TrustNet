@@ -397,6 +397,419 @@ components:
       name: X-API-Key
 
   schemas:
+    # MVP Feature Schemas
+    VerificationRequest:
+      type: object
+      required: [text]
+      properties:
+        text:
+          type: string
+          minLength: 10
+          maxLength: 10000
+          description: Content to verify for misinformation
+        urls:
+          type: array
+          maxItems: 5
+          items:
+            type: string
+            format: uri
+          description: URLs referenced in the content
+        images:
+          type: array
+          maxItems: 3
+          items:
+            type: string
+            format: uri
+          description: Image URLs for visual analysis
+        language:
+          type: string
+          enum: [hi, bn, te, mr, ta, kn, ml, gu, or, pa, ur, en]
+          description: Primary language of the content
+        source_type:
+          type: string
+          enum: [social_media, news, messaging, email, web]
+          description: Platform where content originated
+
+    VerificationQueued:
+      type: object
+      properties:
+        verification_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [analyzing]
+        message:
+          type: string
+        check_url:
+          type: string
+          description: URL to check verification status
+        estimated_completion:
+          type: string
+          format: date-time
+
+    VerificationComplete:
+      type: object
+      properties:
+        verification_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [completed]
+        verification_card:
+          type: object
+          properties:
+            credibility_score:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: Overall credibility score
+            rating:
+              type: string
+              enum: [True, False, Mixture, Unproven, Insufficient_Evidence]
+            confidence:
+              type: number
+              minimum: 0
+              maximum: 1
+            source_analysis:
+              type: object
+              description: Analysis of sources and URLs
+            alternative_headlines:
+              type: array
+              items:
+                type: string
+              description: Alternative framing of the claim
+            neutral_summary:
+              type: string
+              description: AI-generated neutral summary
+            manipulation_alerts:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [emotional_manipulation, unrealistic_incentive, technical_deception, synthetic_media]
+                  severity:
+                    type: string
+                    enum: [low, medium, high]
+                  message:
+                    type: string
+            education_tips:
+              type: array
+              items:
+                type: object
+                properties:
+                  category:
+                    type: string
+                  tip:
+                    type: string
+                  principle:
+                    type: string
+        processing_time:
+          type: integer
+        completed_at:
+          type: string
+          format: date-time
+
+    QuarantineRequired:
+      type: object
+      properties:
+        verification_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [needs_review]
+        quarantine_url:
+          type: string
+          description: URL to quarantine room for this item
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        suspicious_indicators:
+          type: array
+          items:
+            type: string
+        message:
+          type: string
+
+    QuarantineItem:
+      type: object
+      properties:
+        verification_id:
+          type: string
+          format: uuid
+        quarantine_item:
+          type: object
+          properties:
+            original_content:
+              type: string
+            suspicious_elements:
+              type: array
+              items:
+                type: string
+            ai_uncertainty:
+              type: number
+              description: AI's confidence level (low = uncertain)
+            highlighted_areas:
+              type: array
+              items:
+                type: object
+                description: Visual highlights of suspicious content areas
+            context_needed:
+              type: array
+              items:
+                type: string
+              description: Additional context questions for user
+            similar_claims:
+              type: array
+              items:
+                type: object
+                description: Related claims for comparison
+        user_action_required:
+          type: boolean
+        verdict_options:
+          type: array
+          items:
+            type: string
+            enum: [legit, misleading, needs_more_info]
+        educational_context:
+          type: string
+          description: Why this content is uncertain
+
+    UserVerdict:
+      type: object
+      required: [user_verdict]
+      properties:
+        user_verdict:
+          type: string
+          enum: [legit, misleading, needs_more_info]
+        confidence:
+          type: number
+          minimum: 1
+          maximum: 5
+          description: User confidence in their judgment (1-5)
+        reasoning:
+          type: string
+          maxLength: 500
+          description: Optional reasoning for the verdict
+        user_expertise:
+          type: string
+          enum: [expert, knowledgeable, general]
+          default: general
+
+    EducationalFeed:
+      type: object
+      properties:
+        feed_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedItem'
+        trending_topics:
+          type: array
+          items:
+            type: object
+            properties:
+              topic:
+                type: string
+              trend_score:
+                type: number
+              category:
+                type: string
+        total_count:
+          type: integer
+        language:
+          type: string
+        last_updated:
+          type: string
+          format: date-time
+        feed_metadata:
+          type: object
+          properties:
+            user_education_focus:
+              type: boolean
+            real_world_examples:
+              type: boolean
+            proactive_learning:
+              type: boolean
+
+    FeedItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        type:
+          type: string
+          enum: [verified_example, debunked_example, education_tip]
+        summary:
+          type: string
+        original_claim:
+          type: string
+        verdict:
+          type: string
+        evidence_summary:
+          type: string
+        learning_points:
+          type: array
+          items:
+            type: string
+        visual_elements:
+          type: object
+          description: Charts, graphs, highlighted text
+        engagement_score:
+          type: number
+        published_at:
+          type: string
+          format: date-time
+        source_attribution:
+          type: string
+        category:
+          type: string
+          enum: [health, politics, finance, social]
+
+    FeedItemDetail:
+      type: object
+      properties:
+        feed_item:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            title:
+              type: string
+            full_content:
+              type: string
+            original_claim:
+              type: string
+            detailed_analysis:
+              type: string
+            fact_check_process:
+              type: string
+              description: Step-by-step fact-checking methodology
+            evidence_chain:
+              type: array
+              items:
+                type: object
+                properties:
+                  evidence:
+                    type: string
+                  source:
+                    type: string
+                  credibility:
+                    type: string
+            visual_breakdown:
+              type: object
+              description: Visual analysis of suspicious elements
+            manipulation_techniques:
+              type: array
+              items:
+                type: string
+              description: Specific manipulation tactics explained
+            red_flags:
+              type: array
+              items:
+                type: string
+              description: Warning signs highlighted for users
+            verification_steps:
+              type: array
+              items:
+                type: string
+              description: How users can verify similar claims
+            source_attribution:
+              type: string
+            educational_value:
+              type: string
+            published_at:
+              type: string
+              format: date-time
+        related_content:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+              summary:
+                type: string
+              type:
+                type: string
+        user_actions:
+          type: object
+          properties:
+            can_share:
+              type: boolean
+            can_bookmark:
+              type: boolean
+            can_report_error:
+              type: boolean
+
+    EngagementFeedback:
+      type: object
+      required: [engagement_type, rating]
+      properties:
+        engagement_type:
+          type: string
+          enum: [helpful, confusing, learned_something, share_worthy]
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comments:
+          type: string
+          maxLength: 500
+        time_spent_seconds:
+          type: integer
+          description: Time user spent reading the content
+
+    TrendingPatterns:
+      type: object
+      properties:
+        trending_patterns:
+          type: array
+          items:
+            type: object
+            properties:
+              pattern_name:
+                type: string
+              description:
+                type: string
+              frequency:
+                type: integer
+              example_claims:
+                type: array
+                items:
+                  type: string
+              detection_tips:
+                type: array
+                items:
+                  type: string
+              related_topics:
+                type: array
+                items:
+                  type: string
+              trend_score:
+                type: number
+              educational_priority:
+                type: string
+                enum: [low, medium, high]
+        time_range:
+          type: string
+        language:
+          type: string
+        generated_at:
+          type: string
+          format: date-time
+        disclaimer:
+          type: string
     AnalysisRequest:
       type: object
       required: [text]
