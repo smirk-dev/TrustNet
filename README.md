@@ -32,11 +32,35 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed system design, data models, 
 
 ## Features
 
-- **Multi-language Support**: Hindi, Bengali, Telugu, Marathi, Tamil, and more
-- **Real-time Analysis**: <3 second response times for content verification
-- **Evidence Retrieval**: Grounded explanations with cited sources
-- **Educational Tips**: Media literacy guidance for users
-- **Mobile-First**: PWA optimized for low-bandwidth networks
+### 🔍 **Automated Verification Engine** (MVP Priority #1)
+- **Instant Credibility Scoring**: Get immediate assessment of content trustworthiness
+- **Source Analysis**: Automated checking of URLs and domain reputation
+- **Neutral AI Summaries**: Unbiased summaries of claims with alternative perspectives
+- **High Manipulation Alerts**: Combined detection for emotional triggers + synthetic media
+
+### 🏠 **Quarantine Room** (MVP Priority #2)  
+- **Human-AI Collaboration**: When AI is uncertain, users provide the final judgment
+- **Educational Context**: Learn why content is suspicious through interactive analysis
+- **User Empowerment**: Build critical thinking skills by reviewing "grey area" content
+- **Feedback Loop**: User verdicts improve AI detection for everyone
+
+### 📚 **Proactive Homepage Feed** (MVP Priority #3)
+- **Real-World Examples**: Curated verified and debunked information for continuous learning
+- **Pattern Recognition**: Learn to identify manipulation techniques through examples
+- **Trending Analysis**: Stay aware of current misinformation patterns in your language
+- **Engagement Tracking**: Educational content that adapts based on user interaction
+
+### 🛡️ **Advanced Detection Principles**
+- **Emotional Manipulation**: Identifies urgency, fear appeals, and pressure tactics
+- **Unrealistic Incentives**: Flags too-good-to-be-true offers and get-rich-quick schemes  
+- **Technical Deception**: Detects link masking, impersonation, and fake credentials
+- **Synthetic Media**: AI-generated text and image detection with confidence scoring
+- **Visual Analysis**: Highlights suspicious areas in images and data visualizations
+
+### 🌐 **No-Login MVP Experience**
+- **Friction-Free Access**: Start verifying content immediately without registration
+- **Privacy-First**: Minimal data collection with optional engagement tracking
+- **Mobile Optimized**: Works seamlessly on low-end Android devices with limited bandwidth
 
 ## API Usage
 
