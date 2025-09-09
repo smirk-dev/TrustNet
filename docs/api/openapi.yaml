@@ -44,6 +44,251 @@ paths:
                     format: date-time
                   version:
                     type: string
+                  features:
+                    type: object
+                    properties:
+                      verification_engine:
+                        type: boolean
+                      quarantine_room:
+                        type: boolean
+                      proactive_feed:
+                        type: boolean
+                      no_login_required:
+                        type: boolean
+
+  # MVP Priority #1: Automated Verification Engine
+  /verify:
+    post:
+      summary: Submit content for automated verification (MVP Core Feature)
+      operationId: verifyContent
+      security: []  # No login required for MVP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerificationRequest'
+            examples:
+              simple_text:
+                summary: Basic text verification
+                value:
+                  text: "वैक्सीन में माइक्रोचिप्स होती हैं"
+                  language: "hi"
+              with_manipulation_check:
+                summary: Check for manipulation tactics
+                value:
+                  text: "URGENT! Free money - click now before it's too late!"
+                  urls: ["https://bit.ly/fake-offer"]
+                  language: "en"
+      responses:
+        '202':
+          description: Verification request accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationQueued'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/RateLimit'
+
+  /verify/{verificationId}:
+    get:
+      summary: Get verification results or quarantine status
+      operationId: getVerificationResult
+      security: []
+      parameters:
+        - name: verificationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Verification completed or quarantine required
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/VerificationComplete'
+                  - $ref: '#/components/schemas/QuarantineRequired'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # MVP Priority #2: Quarantine Room
+  /quarantine/{verificationId}:
+    get:
+      summary: Get quarantine item details for user review
+      operationId: getQuarantineItem  
+      security: []
+      parameters:
+        - name: verificationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Quarantine item details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuarantineItem'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /quarantine/{verificationId}/verdict:
+    post:
+      summary: Submit user judgment on quarantined content
+      operationId: submitQuarantineVerdict
+      security: []
+      parameters:
+        - name: verificationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserVerdict'
+      responses:
+        '201':
+          description: User verdict recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verdict_id:
+                    type: string
+                    format: uuid
+                  message:
+                    type: string
+                  contribution_impact:
+                    type: string
+                  quarantine_resolved:
+                    type: boolean
+
+  # MVP Priority #3: Proactive Homepage Feed  
+  /feed:
+    get:
+      summary: Get educational content feed for homepage
+      operationId: getEducationalFeed
+      security: []
+      parameters:
+        - name: language
+          in: query
+          schema:
+            type: string
+            enum: [hi, bn, te, mr, ta, kn, ml, gu, or, pa, ur, en]
+            default: en
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+            default: 10
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Educational feed content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationalFeed'
+
+  /feed/{itemId}:
+    get:
+      summary: Get detailed educational content item
+      operationId: getFeedItem
+      security: []
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Detailed educational content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedItemDetail'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /feed/{itemId}/engagement:
+    post:
+      summary: Submit engagement feedback on educational content
+      operationId: submitFeedEngagement
+      security: []
+      parameters:
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EngagementFeedback'
+      responses:
+        '201':
+          description: Engagement recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  engagement_id:
+                    type: string
+                    format: uuid
+                  message:
+                    type: string
+                  contribution:
+                    type: string
+
+  /trends:
+    get:
+      summary: Get trending misinformation patterns (educational)
+      operationId: getTrends
+      security: []
+      parameters:
+        - name: language
+          in: query
+          schema:
+            type: string
+            default: en
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [7d, 30d]
+            default: 7d
+      responses:
+        '200':
+          description: Trending misinformation patterns
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrendingPatterns'
 
   /analyze:
     post:
