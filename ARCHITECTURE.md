@@ -11,9 +11,57 @@
 - **Context-Aware Confidence**: Dynamic scoring based on source coherence, claim precedence, and linguistic clarity
 
 **Demonstrable Impact Metrics:**
+
 - **Immediate**: 70% reduction in user sharing of flagged content (A/B tested)
 - **Short-term**: 40% improvement in users' ability to identify manipulation techniques (pre/post assessment)
 - **Scalable**: Processes 10,000+ claims/day while maintaining 85%+ accuracy against expert review
+
+## Strategic Scope & Impact Framework
+
+### Focused MVP Scope: Quality Over Breadth
+
+**Primary Target**: Urban English/Hindi speakers (50M+ users) in metros and Tier-1 cities
+**Content Focus**: Health misinformation, financial scams, political manipulation during election cycles
+**Success Threshold**: Demonstrable behavior change in 10,000 active users over 3 months
+
+**Why This Scope Maximizes Impact:**
+1. **Concentrated User Base**: Dense, tech-savvy population with high viral sharing rates
+2. **High-Stakes Content**: Health and financial misinformation have immediate measurable harm
+3. **Measurable Outcomes**: Pre/post surveys, sharing behavior analysis, manipulation detection accuracy
+
+### Measurable Social Impact Metrics
+
+**Tier 1 - Immediate Behavioral Metrics (Weeks 1-4):**
+- User engagement with educational content (session duration, return visits)
+- Verification request volume and categories
+- Quarantine Room completion rates and quality scores
+
+**Tier 2 - Knowledge Transfer Metrics (Weeks 4-12):**
+- Pre/post assessment scores on manipulation technique identification
+- User-generated content quality improvement (reduced manipulation patterns)
+- Community contribution quality in Quarantine Room decisions
+
+**Tier 3 - Behavioral Change Metrics (Weeks 8-24):**
+- Measurable reduction in sharing unverified content (tracked via opt-in analytics)
+- Increased fact-checking behavior before sharing (user surveys + engagement data)
+- Cross-platform spillover effect (users applying skills to WhatsApp, Facebook, etc.)
+
+### Innovation Differentiation from Existing Tools
+
+**vs. Traditional Fact-Checkers (Alt News, Boom Live):**
+- **Speed**: Real-time processing vs. manual review delays
+- **Transparency**: Full evidence chain vs. expert assertion
+- **Education**: Teaches detection patterns vs. providing verdicts
+
+**vs. Platform-Native Solutions (Facebook, WhatsApp):**
+- **Context-Aware**: India-specific manipulation patterns and cultural nuances  
+- **Human-AI Collaboration**: Quarantine Room vs. pure algorithmic decisions
+- **Proactive Learning**: Educational feed vs. reactive warnings
+
+**vs. International Tools (Snopes, PolitiFact):**
+- **Regional Expertise**: India-focused data sources, local language support
+- **Cultural Sensitivity**: Understands Indian social dynamics and information flows
+- **Manipulation Detection**: Novel algorithms for techniques prevalent in Indian misinformation landscape
 
 ## High-Level Reference Architecture
 
