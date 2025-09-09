@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-**TrustNet** is an AI-powered misinformation detection system for India that uses Google Cloud services to analyze content, retrieve evidence from trusted sources, and educate users on media literacy. The platform serves journalists, fact-checkers, educators, and citizens with transparent explanations and grounded evidence to combat false narratives across multiple Indian languages.
+**TrustNet** is an AI-powered misinformation detection system for India that combines automated verification with proactive user education to combat false narratives. The platform features an **Automated Verification Engine** for instant credibility scoring, a **Quarantine Room** for uncertain content requiring human judgment, and a **Proactive Homepage Feed** that transforms the tool from reactive utility into an engaging educational platform serving citizens across multiple Indian languages.
 
 ## High-Level Reference Architecture
 
