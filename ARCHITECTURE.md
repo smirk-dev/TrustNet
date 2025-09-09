@@ -547,16 +547,27 @@ alert_policies:
 
 ### MVP Phase
 **Core Features**:
-- Text-only misinformation detection for Hindi and English
-- Basic evidence retrieval from curated source corpus  
-- Simple web interface for fact-checker teams
-- Integration with Google Fact Check Tools API
-- Firestore-based verdict storage and retrieval
+- **Automated Verification Engine**: Instant credibility scoring with source analysis and neutral AI summaries  
+- **Quarantine Room**: Dedicated workflow for uncertain content where users provide final judgment on suspicious claims
+- **Proactive Homepage Feed**: Curated real-world examples of verified and debunked information for continuous education
+- **High Manipulation Alert**: Combined detection for emotionally manipulative language + synthetic media indicators
+- **Visual Analysis Outputs**: Image highlighting of suspicious areas and simple data visualization graphs
+- **Multi-language Support**: Hindi and English with basic transliteration for code-mixed content
+- **No-Login MVP**: Friction-free experience without mandatory user registration
+
+**Detection Principles Implemented**:
+- Emotional manipulation detection through linguistic analysis
+- Unrealistic incentive pattern recognition  
+- Technical deception identification (fake links, impersonation)
+- Synthetic media detection for AI-generated content
+- Source credibility scoring and verification
+- Cross-verification recommendations in education tips
 
 **Success Metrics**:
-- Process 1000 claims/day with >80% accuracy
-- Average response time <5 seconds  
-- User satisfaction score >4/5 from pilot fact-checkers
+- Process 1000 claims/day with >85% confidence score accuracy
+- 70% user engagement with Quarantine Room verdicts
+- Average session time >3 minutes on Proactive Feed
+- User satisfaction score >4/5 from pilot communities
 
 ### Beta Phase  
 **Enhanced Capabilities**:
