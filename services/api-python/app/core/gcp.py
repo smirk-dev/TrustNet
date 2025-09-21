@@ -9,8 +9,18 @@ import logging
 from google.cloud import firestore
 from google.cloud import aiplatform
 from google.cloud import pubsub_v1
-from google.cloud import dlp_v2
-from google.cloud import webrisk_v1
+
+# Try to import DLP and WebRisk, fall back to None if not available
+try:
+    from google.cloud import dlp_v2
+except ImportError:
+    dlp_v2 = None
+
+try:
+    from google.cloud.webrisk_v1 import WebRiskServiceClient
+except ImportError:
+    WebRiskServiceClient = None
+
 from google.api_core import exceptions as gcp_exceptions
 
 from ..core.config import settings
