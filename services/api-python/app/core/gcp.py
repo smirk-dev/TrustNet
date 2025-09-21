@@ -90,11 +90,13 @@ class GCPClientManager:
         _pubsub_publisher = pubsub_v1.PublisherClient()
         _pubsub_subscriber = pubsub_v1.SubscriberClient()
         
-        # Initialize DLP
-        _dlp_client = dlp_v2.DlpServiceClient()
+        # Initialize DLP (if available)
+        if dlp_v2:
+            _dlp_client = dlp_v2.DlpServiceClient()
         
-        # Initialize Web Risk
-        _webrisk_client = webrisk_v1.WebRiskServiceClient()
+        # Initialize Web Risk (if available)
+        if WebRiskServiceClient:
+            _webrisk_client = WebRiskServiceClient()
     
     async def _init_mock_clients(self):
         """Initialize mock clients for development."""
