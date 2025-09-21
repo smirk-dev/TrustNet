@@ -394,7 +394,7 @@ class FeedItemDetail(BaseModel):
 
 class EngagementFeedback(BaseModel):
     """Feed engagement feedback."""
-    engagement_type: str = Field(..., regex="^(helpful|confusing|learned_something|share_worthy)$")
+    engagement_type: str = Field(..., pattern="^(helpful|confusing|learned_something|share_worthy)$")
     rating: int = Field(..., ge=1, le=5)
     comments: Optional[str] = Field(None, max_length=500)
     time_spent_seconds: Optional[int] = None
