@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 from ....models.schemas import (
     AnalysisRequest, AnalysisResult, AnalysisQueued, ManipulationIndicator,
-    Verdict, DetectionScores, ManipulationType, SeverityLevel
+    Verdict, DetectionScores, ManipulationType, SeverityLevel, ManipulationTechnique
 )
 from ....core.database import db_manager
 from ....core.cache import cache_manager
