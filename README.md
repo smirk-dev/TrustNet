@@ -1,4 +1,4 @@
-# 🛡️ TrustNet - AI-Powered Misinformation Detection Platform
+﻿# 🛡️ TrustNet - AI-Powered Misinformation Detection Platform
 
 A comprehensive fullstack application that empowers users to identify misinformation and build digital immunity through AI-powered content analysis, educational insights, and real-time verification.
 
@@ -346,4 +346,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-*Built with ❤️ for digital literacy and misinformation resistance*
+Built with ❤️ for digital literacy and misinformation resistance
