@@ -293,6 +293,83 @@ class FirestoreManager:
             logger.error(f"❌ Failed to get trending patterns: {e}")
             return {"trending_patterns": [], "time_range": time_range, "language": language}
 
+    # Analysis operations
+    async def store_analysis(self, analysis_id: str, analysis_data: Dict[str, Any]) -> bool:
+        """Store analysis record."""
+        try:
+            client = self._get_client()
+            doc_ref = client.collection("analyses").document(analysis_id)
+            await doc_ref.set(analysis_data)
+            logger.info(f"✅ Stored analysis {analysis_id}")
+            return True
+        except Exception as e:
+            logger.error(f"❌ Failed to store analysis {analysis_id}: {e}")
+            return False
+
+    async def update_analysis(self, analysis_id: str, update_data: Dict[str, Any]) -> bool:
+        """Update existing analysis record."""
+        try:
+            client = self._get_client()
+            doc_ref = client.collection("analyses").document(analysis_id)
+            await doc_ref.update(update_data)
+            logger.info(f"✅ Updated analysis {analysis_id}")
+            return True
+        except Exception as e:
+            logger.error(f"❌ Failed to update analysis {analysis_id}: {e}")
+            return False
+
+    async def get_analysis(self, analysis_id: str) -> Optional[Dict[str, Any]]:
+        """Get analysis record by ID."""
+        try:
+            client = self._get_client()
+            doc_ref = client.collection("analyses").document(analysis_id)
+            doc = await doc_ref.get()
+            
+            if doc.exists:
+                return doc.to_dict()
+            return None
+        except Exception as e:
+            logger.error(f"❌ Failed to get analysis {analysis_id}: {e}")
+            return None
+
+    async def store_batch_analysis(self, batch_id: str, batch_data: Dict[str, Any]) -> bool:
+        """Store batch analysis record."""
+        try:
+            client = self._get_client()
+            doc_ref = client.collection("batch_analyses").document(batch_id)
+            await doc_ref.set(batch_data)
+            logger.info(f"✅ Stored batch analysis {batch_id}")
+            return True
+        except Exception as e:
+            logger.error(f"❌ Failed to store batch analysis {batch_id}: {e}")
+            return False
+
+    async def update_batch_analysis(self, batch_id: str, update_data: Dict[str, Any]) -> bool:
+        """Update existing batch analysis record."""
+        try:
+            client = self._get_client()
+            doc_ref = client.collection("batch_analyses").document(batch_id)
+            await doc_ref.update(update_data)
+            logger.info(f"✅ Updated batch analysis {batch_id}")
+            return True
+        except Exception as e:
+            logger.error(f"❌ Failed to update batch analysis {batch_id}: {e}")
+            return False
+
+    async def get_batch_analysis(self, batch_id: str) -> Optional[Dict[str, Any]]:
+        """Get batch analysis record by ID."""
+        try:
+            client = self._get_client()
+            doc_ref = client.collection("batch_analyses").document(batch_id)
+            doc = await doc_ref.get()
+            
+            if doc.exists:
+                return doc.to_dict()
+            return None
+        except Exception as e:
+            logger.error(f"❌ Failed to get batch analysis {batch_id}: {e}")
+            return None
+
 
 # Global database manager instance
 db_manager = FirestoreManager()
