@@ -344,7 +344,7 @@ class FeedItem(BaseModel):
     """Educational feed item."""
     id: str
     title: str
-    type: str = Field(..., regex="^(verified_example|debunked_example|education_tip)$")
+    type: str = Field(..., pattern="^(verified_example|debunked_example|education_tip)$")
     summary: str
     original_claim: Optional[str] = None
     verdict: Optional[str] = None
