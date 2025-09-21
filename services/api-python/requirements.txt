@@ -1,0 +1,70 @@
+# TrustNet Python Backend
+# FastAPI-based misinformation detection service
+
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Google Cloud Dependencies
+google-cloud-aiplatform==1.38.1
+google-cloud-firestore==2.13.1
+google-cloud-pubsub==2.18.4
+google-cloud-dlp==3.12.2
+google-cloud-webrisk==1.13.2
+google-cloud-storage==2.10.0
+google-cloud-logging==3.8.0
+google-cloud-monitoring==2.16.0
+
+# Data Processing & ML
+numpy==1.24.3
+pandas==2.0.3
+scikit-learn==1.3.0
+langdetect==1.0.9
+googletrans==4.0.0rc1
+
+# HTTP & API
+httpx==0.25.2
+aiohttp==3.9.1
+requests==2.31.0
+
+# Caching & Performance
+redis==5.0.1
+aioredis==2.0.1
+
+# Database & ORM
+motor==3.3.2  # Async MongoDB driver (if needed)
+asyncpg==0.29.0  # Async PostgreSQL (if needed)
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Validation & Utilities
+email-validator==2.1.0
+python-dotenv==1.0.0
+pendulum==2.1.2
+uuid6==2023.5.2
+
+# Logging & Monitoring
+structlog==23.2.0
+python-json-logger==2.0.7
+
+# Testing & Development
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+httpx==0.25.2  # For async testing
+factory-boy==3.3.0
+freezegun==1.2.2
+
+# Type hints & Code Quality
+mypy==1.7.1
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+bandit==1.7.5
+
+# Configuration
+python-decouple==3.8
