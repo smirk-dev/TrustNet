@@ -3,8 +3,8 @@ TrustNet Core Data Models
 Pydantic models matching the OpenAPI schema specifications.
 """
 
-from pydantic import BaseModel, Field, HttpUrl, validator
-from typing import List, Optional, Dict, Any, Union
+from pydantic import BaseModel, Field, HttpUrl, field_validator
+from typing import List, Optional, Dict, Any, Union, Annotated
 from datetime import datetime
 from enum import Enum
 import uuid
