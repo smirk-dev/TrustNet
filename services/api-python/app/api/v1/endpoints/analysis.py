@@ -9,8 +9,8 @@ import time
 from datetime import datetime
 
 from ....models.schemas import (
-    AnalysisRequest, ContentAnalysisResponse, ManipulationTechnique,
-    EvidenceChain, ConfidenceScore, AnalysisEngine, TrustScore
+    AnalysisRequest, AnalysisResult, AnalysisQueued, ManipulationIndicator,
+    Verdict, DetectionScores, ManipulationType, SeverityLevel
 )
 from ....core.database import db_manager
 from ....core.cache import cache_manager
@@ -22,7 +22,7 @@ logger = get_logger(__name__)
 router = APIRouter()
 
 
-@router.post("/analyze", response_model=ContentAnalysisResponse)
+@router.post("/analyze", response_model=AnalysisResult)
 async def analyze_content(
     analysis_request: ContentAnalysisRequest,
     background_tasks: BackgroundTasks,
