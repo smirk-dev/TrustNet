@@ -8,6 +8,8 @@ import { AnalysisResult } from "./AnalysisResult";
 import { DigitalImmunityTip } from "./DigitalImmunityTip";
 import { DarkModeToggle } from "./DarkModeToggle";
 import { FileUpload } from "./FileUpload";
+import { useAnalysis } from "@/hooks/useApi";
+import { toast } from "@/hooks/use-toast";
 
 interface AnalysisData {
   credibilityScore: number;
@@ -25,74 +27,57 @@ interface AnalysisData {
 export function NewsAnalyzer() {
   const [newsContent, setNewsContent] = useState("");
   const [sourceFile, setSourceFile] = useState<string | null>(null);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState<AnalysisData | null>(null);
   const [activeTab, setActiveTab] = useState<"text" | "file">("text");
+  
+  const {
+    analyzeContent,
+    isAnalyzing,
+    error: analysisError,
+    data: analysisResult,
+    reset
+  } = useAnalysis();
 
-  const mockAnalysis = (): AnalysisData => {
-    const mockResults = [
-      {
-        credibilityScore: 85,
-        status: 'verified' as const,
-        explanation: "This content shows strong journalistic standards with proper attribution, balanced reporting, and verifiable facts. The language is neutral and sources are credible.",
-        redFlags: [],
-        sources: ["Reuters", "Associated Press", "Government Records"],
-        immunityTip: {
-          title: "Look for Source Attribution",
-          description: "Credible news always cites specific sources and provides context. Notice how this article mentions where information came from.",
-          pattern: "Multiple independent sources + specific quotes + official records"
-        }
-      },
-      {
-        credibilityScore: 35,
-        status: 'suspicious' as const,
-        explanation: "This content contains several warning signs of potential misinformation including emotional language, lack of credible sources, and unverified claims.",
-        redFlags: [
-          "Uses highly emotional language designed to provoke anger",
-          "Makes claims without citing credible sources",
-          "Contains absolute statements without nuance",
-          "Appeals to conspiracy theories"
-        ],
-        sources: ["Unverified social media posts", "Anonymous sources"],
-        immunityTip: {
-          title: "Emotional Manipulation Alert",
-          description: "Be wary of content that tries to make you angry or scared without providing solid evidence. This often indicates bias or manipulation.",
-          pattern: "Strong emotions + weak evidence = Red flag"
-        }
-      },
-      {
-        credibilityScore: 15,
-        status: 'misleading' as const,
-        explanation: "This content shows clear signs of misinformation with false claims, misleading statistics, and deliberate manipulation of facts.",
-        redFlags: [
-          "Contains factually incorrect information",
-          "Misrepresents statistical data",
-          "Uses outdated or irrelevant information",
-          "Lacks any credible source verification"
-        ],
-        sources: ["No credible sources found"],
-        immunityTip: {
-          title: "Fact-Check Before Sharing",
-          description: "Always verify claims through multiple independent sources before believing or sharing. This content failed basic fact-checking.",
-          pattern: "Unverified claims + missing context = Misinformation"
-        }
-      }
-    ];
-    
-    return mockResults[Math.floor(Math.random() * mockResults.length)];
+  const handleAnalyze = () => {
+    if (!newsContent.trim()) {
+      toast({
+        title: "No content to analyze",
+        description: "Please enter some text to analyze.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    analyzeContent({
+      content: newsContent,
+      content_type: "text",
+      user_id: "anonymous", // In a real app, this would come from auth
+      metadata: sourceFile ? { source_file: sourceFile } : undefined
+    });
   };
 
-  const analyzeNews = async () => {
-    if (!newsContent.trim()) return;
-    
-    setIsAnalyzing(true);
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const result = mockAnalysis();
-    setAnalysisResult(result);
-    setIsAnalyzing(false);
-  };
+  // Handle analysis errors
+  if (analysisError) {
+    toast({
+      title: "Analysis Failed",
+      description: analysisError.message || "Failed to analyze content. Please try again.",
+      variant: "destructive",
+    });
+  }
+
+  // Transform API response to match component interface
+  const transformedResult: AnalysisData | null = analysisResult ? {
+    credibilityScore: Math.round(analysisResult.trust_score.overall_score * 100),
+    status: analysisResult.trust_score.overall_score >= 0.7 ? 'verified' : 
+            analysisResult.trust_score.overall_score >= 0.4 ? 'suspicious' : 'misleading',
+    explanation: analysisResult.analysis_summary,
+    redFlags: analysisResult.manipulation_techniques?.map(tech => tech.description) || [],
+    sources: analysisResult.metadata?.sources || [],
+    immunityTip: {
+      title: "Build Digital Immunity",
+      description: analysisResult.educational_content || "Learn to identify manipulation patterns in content.",
+      pattern: analysisResult.manipulation_techniques?.[0]?.name || "General awareness"
+    }
+  } : null;
 
   const handleFileTextExtracted = (extractedText: string, filename: string) => {
     setNewsContent(extractedText);
@@ -168,7 +153,7 @@ export function NewsAnalyzer() {
                 <Plus className="h-4 w-4 text-muted-foreground hover:text-primary transition-colors" />
               </Button>
               <Button
-                onClick={analyzeNews}
+                onClick={handleAnalyze}
                 disabled={!newsContent.trim() || isAnalyzing}
                 className="bg-gradient-hero hover:shadow-colored transition-all duration-300 text-white rounded-lg h-8 px-4 min-w-[120px]"
               >
