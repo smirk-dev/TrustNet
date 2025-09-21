@@ -77,8 +77,8 @@ class GCPClientManager:
         """Initialize real GCP clients."""
         global _firestore_client, _pubsub_publisher, _pubsub_subscriber, _dlp_client, _webrisk_client
         
-        # Initialize Vertex AI
-        if settings.GOOGLE_CLOUD_PROJECT_ID:
+        # Initialize Vertex AI (if available)
+        if aiplatform and settings.GOOGLE_CLOUD_PROJECT_ID:
             aiplatform.init(
                 project=settings.GOOGLE_CLOUD_PROJECT_ID,
                 location=settings.VERTEX_AI_LOCATION
