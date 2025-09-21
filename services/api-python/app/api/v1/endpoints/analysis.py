@@ -24,7 +24,7 @@ router = APIRouter()
 
 @router.post("/analyze", response_model=AnalysisResult)
 async def analyze_content(
-    analysis_request: ContentAnalysisRequest,
+    analysis_request: AnalysisRequest,
     background_tasks: BackgroundTasks,
     request: Request
 ):
