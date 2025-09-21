@@ -7,10 +7,14 @@ from typing import Optional, Dict, Any
 import asyncio
 import logging
 from google.cloud import firestore
-from google.cloud import aiplatform
 from google.cloud import pubsub_v1
 
-# Try to import DLP and WebRisk, fall back to None if not available
+# Try to import optional Google Cloud services
+try:
+    from google.cloud import aiplatform
+except ImportError:
+    aiplatform = None
+
 try:
     from google.cloud import dlp_v2
 except ImportError:
