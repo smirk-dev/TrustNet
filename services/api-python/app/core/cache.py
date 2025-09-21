@@ -230,6 +230,14 @@ class CacheManager:
         """Get cached educational feed."""
         return await self.get_json("feed", language)
     
+    async def cache_trust_score(self, content_hash: str, trust_score: Dict[str, Any], ttl: int = 3600) -> bool:
+        """Cache trust score by content hash."""
+        return await self.set_json("trust_score", content_hash, trust_score, ttl)
+    
+    async def get_cached_trust_score(self, content_hash: str) -> Optional[Dict[str, Any]]:
+        """Get cached trust score."""
+        return await self.get_json("trust_score", content_hash)
+    
     async def invalidate_claim(self, claim_id: str) -> bool:
         """Invalidate all cache entries for a claim."""
         try:
