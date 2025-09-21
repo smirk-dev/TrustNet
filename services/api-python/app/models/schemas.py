@@ -297,6 +297,16 @@ class FeedbackRequest(BaseModel):
     user_expertise: UserExpertise = Field(default=UserExpertise.GENERAL_PUBLIC)
 
 
+class FeedbackResponse(BaseModel):
+    """Response to feedback submission."""
+    feedback_id: str
+    status: str
+    message: str
+    contribution_points: int = 0
+    community_impact: Dict[str, bool] = Field(default_factory=dict)
+    follow_up_actions: List[str] = Field(default_factory=list)
+
+
 class AnalysisResult(BaseModel):
     """Complete analysis result."""
     claim_id: str
