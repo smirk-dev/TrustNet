@@ -7,7 +7,7 @@ from typing import List, Dict
 from datetime import datetime
 
 from ..core.logging import get_logger
-from ..models.schemas import ManipulationIndicator  # ManipulationTechnique
+from ..models.schemas import ManipulationIndicator  # ManipulationIndicator
 
 logger = get_logger(__name__)
 
@@ -27,7 +27,7 @@ class ManipulationDetector:
             emotional_score = sum(1 for keyword in emotional_keywords if keyword.lower() in content.lower())
             
             if emotional_score > 0:
-                techniques.append(ManipulationTechnique(
+                techniques.append(ManipulationIndicator(
                     technique_id="emotional_manipulation",
                     technique_name="Emotional Manipulation",
                     description="Uses emotionally charged language to bypass critical thinking",
@@ -47,7 +47,7 @@ class ManipulationDetector:
             urgency_score = sum(1 for keyword in urgency_keywords if keyword.lower() in content.lower())
             
             if urgency_score > 0:
-                techniques.append(ManipulationTechnique(
+                techniques.append(ManipulationIndicator(
                     technique_id="false_urgency",
                     technique_name="False Urgency",
                     description="Creates artificial time pressure to prevent careful consideration",
@@ -67,7 +67,7 @@ class ManipulationDetector:
             authority_score = sum(1 for keyword in authority_keywords if keyword.lower() in content.lower())
             
             if authority_score > 0:
-                techniques.append(ManipulationTechnique(
+                techniques.append(ManipulationIndicator(
                     technique_id="false_authority",
                     technique_name="False Authority Claims",
                     description="Cites vague or non-existent authorities to add credibility",
@@ -87,7 +87,7 @@ class ManipulationDetector:
             social_score = sum(1 for keyword in social_keywords if keyword.lower() in content.lower())
             
             if social_score > 0:
-                techniques.append(ManipulationTechnique(
+                techniques.append(ManipulationIndicator(
                     technique_id="false_social_proof",
                     technique_name="False Social Proof",
                     description="Claims widespread belief or participation without evidence",
@@ -125,7 +125,7 @@ class ManipulationDetector:
         
         for fallacy_type, patterns in fallacy_patterns.items():
             if any(pattern in content.lower() for pattern in patterns):
-                advanced_techniques.append(ManipulationTechnique(
+                advanced_techniques.append(ManipulationIndicator(
                     technique_id=f"logical_fallacy_{fallacy_type}",
                     technique_name=f"Logical Fallacy: {fallacy_type.replace('_', ' ').title()}",
                     description=f"Uses {fallacy_type.replace('_', ' ')} logical fallacy to mislead",
@@ -143,7 +143,7 @@ class ManipulationDetector:
         # Statistical manipulation detection
         stat_keywords = ["statistics show", "data proves", "numbers don't lie", "research indicates"]
         if any(keyword in content.lower() for keyword in stat_keywords):
-            advanced_techniques.append(ManipulationTechnique(
+            advanced_techniques.append(ManipulationIndicator(
                 technique_id="statistical_manipulation",
                 technique_name="Statistical Manipulation",
                 description="Misuses statistics or data to support false claims",
