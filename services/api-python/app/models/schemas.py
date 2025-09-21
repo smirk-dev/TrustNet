@@ -419,6 +419,102 @@ class ErrorResponse(BaseModel):
     details: Optional[List[Dict[str, str]]] = None
 
 
+# Additional Educational and Feedback Models
+class TrendingTopic(BaseModel):
+    """Trending topic in educational content."""
+    id: str
+    title: str
+    description: str
+    category: str
+    trend_score: float = Field(..., ge=0, le=1)
+    engagement_count: int = Field(default=0, ge=0)
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
+
+class EngagementFeedback(BaseModel):
+    """User engagement feedback on educational content."""
+    item_id: str
+    user_id: Optional[str] = None
+    engagement_type: str = Field(..., pattern="^(like|dislike|share|save|helpful|not_helpful)$")
+    feedback_text: Optional[str] = Field(None, max_length=500)
+    rating: Optional[int] = Field(None, ge=1, le=5)
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
+
+class UserFeedback(BaseModel):
+    """General user feedback on the platform."""
+    feedback_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: Optional[str] = None
+    feedback_type: str = Field(..., pattern="^(bug_report|feature_request|general|content_quality|user_experience)$")
+    title: str = Field(..., min_length=5, max_length=100)
+    description: str = Field(..., min_length=10, max_length=1000)
+    priority: Priority = Field(default=Priority.NORMAL)
+    status: str = Field(default="submitted", pattern="^(submitted|reviewed|in_progress|resolved|closed)$")
+    rating: Optional[int] = Field(None, ge=1, le=5)
+    contact_email: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
+
+# Content Analysis Models  
+class ContentAnalysisRequest(BaseModel):
+    """Request model for detailed content analysis (legacy compatibility)."""
+    content: str = Field(..., min_length=10, max_length=10000, description="Content to analyze")
+    analysis_type: str = Field(default="comprehensive", pattern="^(quick|comprehensive|deep)$")
+    priority: Priority = Field(default=Priority.NORMAL)
+    metadata: Optional[Dict[str, Any]] = Field(default_factory=dict)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
+
+class ManipulationTechnique(BaseModel):
+    """Legacy alias for ManipulationIndicator."""
+    type: ManipulationType
+    description: str
+    confidence: float = Field(..., ge=0, le=1)
+    severity: SeverityLevel
+    evidence: List[str] = Field(default_factory=list)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
+
+class TrustScore(BaseModel):
+    """Trust score calculation result."""
+    overall_score: float = Field(..., ge=0, le=1)
+    components: Dict[str, float] = Field(default_factory=dict)
+    confidence: float = Field(..., ge=0, le=1)
+    factors: List[str] = Field(default_factory=list)
+    calculation_method: str = Field(default="weighted_average")
+    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
+
 class ValidationError(BaseModel):
     """Validation error response."""
     error: str = "validation_error"
