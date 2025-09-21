@@ -6,7 +6,7 @@ Handles caching operations for improved performance.
 import json
 import asyncio
 import logging
-from typing import Optional, Any, Dict
+from typing import Optional, Any, Dict, List
 from datetime import datetime, timedelta
 
 from ..core.config import settings
