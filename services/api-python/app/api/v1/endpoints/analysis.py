@@ -90,7 +90,7 @@ async def analyze_content(
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
 
 
-@router.get("/analyze/{analysis_id}", response_model=ContentAnalysisResponse)
+@router.get("/analyze/{analysis_id}", response_model=AnalysisResult)
 async def get_analysis_result(analysis_id: str):
     """
     Get comprehensive analysis results.
@@ -105,7 +105,7 @@ async def get_analysis_result(analysis_id: str):
         logger.info(f"📊 Getting analysis result: {analysis_id}")
         
         # Get analysis from database
-        analysis = await db_manager.get_analysis(analysis_id)
+        analysis = await db_manager.get_document("analyses", analysis_id)
         
         if not analysis:
             raise HTTPException(status_code=404, detail="Analysis not found")
