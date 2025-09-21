@@ -113,8 +113,8 @@ class UUIDModel(BaseModel):
 class Claim(UUIDModel, TimestampedModel):
     """Claim data model."""
     text: str = Field(..., min_length=10, max_length=10000)
-    urls: Optional[List[HttpUrl]] = Field(default=None, max_items=5)
-    images: Optional[List[HttpUrl]] = Field(default=None, max_items=3)
+    urls: Optional[List[HttpUrl]] = Field(default=None, max_length=5)
+    images: Optional[List[HttpUrl]] = Field(default=None, max_length=3)
     language: LanguageCode
     script: Optional[str] = None
     source_type: SourceType
