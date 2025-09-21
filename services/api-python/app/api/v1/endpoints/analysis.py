@@ -39,16 +39,16 @@ async def analyze_content(
     - Source credibility assessment
     """
     try:
-        logger.info(f"🔍 Starting content analysis for content: {analysis_request.content[:100]}...")
+        logger.info(f"🔍 Starting content analysis for content: {analysis_request.text[:100]}...")
         
         # Generate content hash for caching
-        content_hash = analysis_service.generate_content_hash(analysis_request.content)
+        content_hash = analysis_service.generate_content_hash(analysis_request.text)
         
         # Check for cached analysis
         cached_analysis = await cache_manager.get_cached_analysis(content_hash)
         if cached_analysis:
             logger.info("✅ Returning cached analysis")
-            return ContentAnalysisResponse(**cached_analysis)
+            return AnalysisResult(**cached_analysis)
         
         # Start background analysis
         analysis_id = await analysis_service.start_analysis(
