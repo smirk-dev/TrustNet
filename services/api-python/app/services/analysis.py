@@ -104,10 +104,14 @@ class AnalysisService:
                 "trust_score": TrustScore(
                     overall_score=max(0.0, min(1.0, trust_score)),
                     confidence=confidence_score,
-                    factors={
+                    components={
                         "emotional_language": -0.2 if has_emotional_language else 0,
                         "source_presence": -0.1 if content.count("http") == 0 else 0.1
-                    }
+                    },
+                    factors=[
+                        "emotional_language" if has_emotional_language else "neutral_language",
+                        "source_verification"
+                    ]
                 ),
                 "confidence_score": confidence_score,
                 "red_flags": red_flags
@@ -118,7 +122,7 @@ class AnalysisService:
             return {
                 "findings": {},
                 "manipulation_techniques": [],
-                "trust_score": TrustScore(score=0.5, confidence=0.1, factors={}),
+                "trust_score": TrustScore(overall_score=0.5, confidence=0.1, factors=["incomplete_analysis"]),
                 "confidence_score": 0.1,
                 "red_flags": ["Analysis error occurred"]
             }
