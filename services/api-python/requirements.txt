@@ -11,7 +11,7 @@ google-cloud-aiplatform==1.38.1
 google-cloud-firestore==2.13.1
 google-cloud-pubsub==2.18.4
 google-cloud-dlp==3.12.2
-google-cloud-webrisk==1.13.2
+google-cloud-webrisk==1.18.1
 google-cloud-storage==2.10.0
 google-cloud-logging==3.8.0
 google-cloud-monitoring==2.16.0
@@ -55,7 +55,6 @@ python-json-logger==2.0.7
 pytest==7.4.3
 pytest-asyncio==0.21.1
 pytest-cov==4.1.0
-httpx==0.25.2  # For async testing
 factory-boy==3.3.0
 freezegun==1.2.2
 
