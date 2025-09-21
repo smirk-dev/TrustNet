@@ -32,8 +32,8 @@ logger = get_logger(__name__)
 _firestore_client: Optional[firestore.AsyncClient] = None
 _pubsub_publisher: Optional[pubsub_v1.PublisherClient] = None
 _pubsub_subscriber: Optional[pubsub_v1.SubscriberClient] = None
-_dlp_client: Optional[dlp_v2.DlpServiceClient] = None
-_webrisk_client: Optional[webrisk_v1.WebRiskServiceClient] = None
+_dlp_client: Optional[Any] = None  # Using Any for optional DLP client
+_webrisk_client: Optional[Any] = None  # Using Any for optional WebRisk client
 
 
 class GCPClientManager:
