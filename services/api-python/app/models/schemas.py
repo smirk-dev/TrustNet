@@ -445,21 +445,6 @@ class TrendingTopic(BaseModel):
         }
 
 
-class EngagementFeedback(BaseModel):
-    """User engagement feedback on educational content."""
-    item_id: str
-    user_id: Optional[str] = None
-    engagement_type: str = Field(..., pattern="^(like|dislike|share|save|helpful|not_helpful)$")
-    feedback_text: Optional[str] = Field(None, max_length=500)
-    rating: Optional[int] = Field(None, ge=1, le=5)
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
-    
-    class Config:
-        json_encoders = {
-            datetime: lambda v: v.isoformat()
-        }
-
-
 class UserFeedback(BaseModel):
     """General user feedback on the platform."""
     feedback_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
