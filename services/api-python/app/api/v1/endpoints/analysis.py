@@ -69,24 +69,15 @@ async def analyze_content(
         )
         
         # Prepare response with initial findings
-        response = AnalysisResult(
-            analysis_id=analysis_id,
-            status="processing",
-            quick_findings=quick_analysis["findings"],
-            manipulation_techniques=quick_analysis["manipulation_techniques"],
-            trust_score=quick_analysis["trust_score"],
-            confidence_score=quick_analysis["confidence_score"],
-            initial_flags=quick_analysis["red_flags"],
-            estimated_completion=datetime.utcnow().timestamp() + 300,  # 5 minutes
-            analysis_metadata={
-                "processing_started": datetime.utcnow().isoformat(),
-                "analysis_engine": "TrustNet-AI-v1.0",
-                "priority": analysis_request.priority
-            }
+        response = AnalysisQueued(
+            claim_id=analysis_id,
+            status="queued", 
+            estimated_completion=datetime.utcnow() + timedelta(minutes=5),
+            check_url=f"/api/v1/analysis/analyze/{analysis_id}"
         )
         
         # Cache initial response
-        await cache_manager.cache_analysis(
+        await cache_manager.set(
             content_hash,
             response.dict(),
             ttl=300  # 5 minutes for initial analysis
