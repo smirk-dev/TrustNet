@@ -14,8 +14,8 @@ class Settings(BaseSettings):
     # API Configuration
     API_NAME: str = "TrustNet API"
     API_VERSION: str = "1.0.0"
-    API_BASE_URL: str = "http://localhost:8080"
-    PORT: int = 8080
+    API_BASE_URL: str = "http://localhost:8000"
+    PORT: int = 8000
     ENVIRONMENT: str = "development"  # development, staging, production
     DEBUG: bool = True
     
