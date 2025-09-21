@@ -123,7 +123,7 @@ class AnalysisService:
                 "red_flags": ["Analysis error occurred"]
             }
     
-    async def comprehensive_analysis(self, analysis_id: str, request: ContentAnalysisRequest):
+    async def comprehensive_analysis(self, analysis_id: str, request: AnalysisRequest):
         """Perform comprehensive background analysis."""
         try:
             logger.info(f"🔬 Starting comprehensive analysis: {analysis_id}")
@@ -132,7 +132,7 @@ class AnalysisService:
             await self._simulate_analysis_steps(analysis_id)
             
             # Generate comprehensive results
-            comprehensive_results = await self._generate_comprehensive_results(request.content)
+            comprehensive_results = await self._generate_comprehensive_results(request.text)
             
             # Update analysis record
             await db_manager.update_analysis(analysis_id, {
