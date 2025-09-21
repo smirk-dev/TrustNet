@@ -331,5 +331,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-Built with ❤️ for digital literacy and misinformation resistance 
+Built with ❤️ for digital literacy and misinformation resistance
+ 
  
