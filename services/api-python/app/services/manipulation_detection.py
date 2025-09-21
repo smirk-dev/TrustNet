@@ -7,7 +7,7 @@ from typing import List, Dict
 from datetime import datetime
 
 from ..core.logging import get_logger
-from ..models.schemas import ManipulationTechnique
+from ..models.schemas import ManipulationIndicator  # ManipulationTechnique
 
 logger = get_logger(__name__)
 
