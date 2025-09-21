@@ -68,7 +68,7 @@ class EducationalService:
             logger.error(f"❌ Failed to get feed items: {e}")
             return []
     
-    async def get_trending_topics(self, language: str = "en") -> List[Dict]:
+    async def get_trending_topics(self, language: str = "en") -> List[TrendingTopic]:
         """Get trending topics for educational content."""
         try:
             logger.info(f"📈 Getting trending topics for language: {language}")
@@ -107,7 +107,7 @@ class EducationalService:
                 }
             ]
             
-            return [topic for topic in trending_topics]
+            return [TrendingTopic(**topic) for topic in trending_topics]
             
         except Exception as e:
             logger.error(f"❌ Failed to get trending topics: {e}")
