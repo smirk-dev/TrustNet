@@ -319,14 +319,14 @@ def get_pubsub_subscriber() -> pubsub_v1.SubscriberClient:
     return _pubsub_subscriber
 
 
-def get_dlp_client() -> Optional["dlp_v2.DlpServiceClient"]:
+def get_dlp_client() -> Optional[Any]:
     """Get DLP client."""
     if not _client_manager.initialized:
         raise RuntimeError("GCP clients not initialized")
     return _dlp_client
 
 
-def get_webrisk_client() -> Optional["WebRiskServiceClient"]:
+def get_webrisk_client() -> Optional[Any]:
     """Get Web Risk client."""
     if not _client_manager.initialized:
         raise RuntimeError("GCP clients not initialized")
