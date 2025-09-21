@@ -22,7 +22,7 @@ logger = get_logger(__name__)
 router = APIRouter()
 
 
-@router.post("/analyze", response_model=AnalysisResult)
+@router.post("/analyze", response_model=AnalysisQueued)
 async def analyze_content(
     analysis_request: AnalysisRequest,
     background_tasks: BackgroundTasks,
@@ -69,7 +69,7 @@ async def analyze_content(
         )
         
         # Prepare response with initial findings
-        response = ContentAnalysisResponse(
+        response = AnalysisResult(
             analysis_id=analysis_id,
             status="processing",
             quick_findings=quick_analysis["findings"],
