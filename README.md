@@ -2,7 +2,7 @@
 
 A comprehensive fullstack application that empowers users to identify misinformation and build digital immunity through AI-powered content analysis, educational insights, and real-time verification.
 
-![TrustNet](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![TrustNet](https://img.shields.io/badge/Status-Production%20ReadBuilt with ❤️ for digital literacy and misinformation resistance-brightgreen)
 ![React](https://img.shields.io/badge/Frontend-React%2018.3.1-blue)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-green)
 ![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue)
