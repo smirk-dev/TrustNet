@@ -72,8 +72,6 @@ TrustNet/
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed system design and deployment instructions.
 
-## Features
-
 ## ✨ Features
 
 ### 🔍 **Real-Time Content Analysis**
@@ -83,7 +81,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed system design and deployment
 - **Educational Insights**: Learn why content is flagged with detailed explanations
 - **Source Verification**: Automatic checking of URLs and domain reputation
 
-### � **Modern User Interface**
+### 🎨 **Modern User Interface**
 
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
 - **Dark/Light Mode**: Automatic theme switching with user preference
@@ -108,13 +106,15 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed system design and deployment
 
 ### Endpoints
 
-**Health Check**
+#### Health Check
+
 ```bash
 GET http://localhost:8000/health
 # Response: {"status": "healthy"}
 ```
 
-**Content Analysis**
+#### Content Analysis
+
 ```bash
 POST http://localhost:8000/v1/analysis
 Content-Type: application/json
@@ -126,7 +126,8 @@ Content-Type: application/json
 }
 ```
 
-**Response Format**
+#### Response Format
+
 ```json
 {
   "analysis_id": "test_1234567890",
@@ -204,14 +205,16 @@ python -m uvicorn basic_server:app --reload --port 8000
 
 Create environment files for different environments:
 
-**Frontend (.env.development)**
+#### Frontend (.env.development)
+
 ```bash
 VITE_API_BASE_URL=http://localhost:8000
 VITE_NODE_ENV=development
 VITE_ENABLE_DEBUG=true
 ```
 
-**Backend Configuration**
+#### Backend Configuration
+
 The backend uses pydantic-settings for configuration management. Key settings include CORS origins, API endpoints, and feature flags.
 
 ### Testing
