@@ -11,7 +11,7 @@ import json
 from ..core.logging import get_logger
 from ..core.database import db_manager
 from ..core.cache import cache_manager
-from ..models.schemas import AnalysisRequest, ManipulationIndicator  # ContentAnalysisRequest, ManipulationTechnique, TrustScore
+from ..models.schemas import AnalysisRequest, ManipulationIndicator, ContentAnalysisRequest, ManipulationTechnique, TrustScore
 
 logger = get_logger(__name__)
 
