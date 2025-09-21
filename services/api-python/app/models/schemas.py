@@ -356,10 +356,7 @@ class FeedItem(BaseModel):
     source_attribution: Optional[str] = None
     category: Optional[str] = Field(None, pattern="^(health|politics|finance|social)$")
     
-    class Config:
-        json_encoders = {
-            datetime: lambda v: v.isoformat()
-        }
+    model_config = {"json_encoders": {datetime: lambda v: v.isoformat()}}
 
 
 class EducationalFeed(BaseModel):
