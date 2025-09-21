@@ -10,7 +10,7 @@ import random
 from ..core.logging import get_logger
 from ..core.database import db_manager
 from ..core.cache import cache_manager
-from ..models.schemas import FeedItem, TrendingTopic, EngagementFeedback
+from ..models.schemas import FeedItem  # TrendingTopic, EngagementFeedback
 
 logger = get_logger(__name__)
 
@@ -68,7 +68,7 @@ class EducationalService:
             logger.error(f"❌ Failed to get feed items: {e}")
             return []
     
-    async def get_trending_topics(self, language: str = "en") -> List[TrendingTopic]:
+    async def get_trending_topics(self, language: str = "en") -> List[Dict]:
         """Get trending topics for educational content."""
         try:
             logger.info(f"📈 Getting trending topics for language: {language}")
@@ -107,7 +107,7 @@ class EducationalService:
                 }
             ]
             
-            return [TrendingTopic(**topic) for topic in trending_topics]
+            return [topic for topic in trending_topics]
             
         except Exception as e:
             logger.error(f"❌ Failed to get trending topics: {e}")
@@ -170,7 +170,7 @@ class EducationalService:
         """Get basic item information."""
         return {"item_id": item_id, "exists": True}
     
-    async def process_engagement(self, item_id: str, engagement: EngagementFeedback) -> Dict:
+    async def process_engagement(self, item_id: str, engagement: Dict) -> Dict:
         """Process user engagement feedback."""
         try:
             logger.info(f"👍 Processing engagement for item: {item_id}")
