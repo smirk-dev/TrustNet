@@ -1,4 +1,4 @@
-# 🛡️ TrustNet - AI-Powered Misinformation Detection Platform
+﻿# ðŸ›¡ï¸ TrustNet - AI-Powered Misinformation Detection Platform
 
 A comprehensive fullstack application that empowers users to identify misinformation and build digital immunity through AI-powered content analysis, educational insights, and real-time verification.
 
@@ -7,7 +7,7 @@ A comprehensive fullstack application that empowers users to identify misinforma
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-green)
 ![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue)
 
-## 🚀 Quick Start
+## ðŸš€ Quick Start
 
 ### Prerequisites
 - **Node.js** 18+ and npm
@@ -39,27 +39,27 @@ npm run dev
 ### 4. Open Application
 Navigate to **http://localhost:8080** in your browser and start analyzing content!
 
-## 🏗️ Architecture
+## ðŸ—ï¸ Architecture
 
 **Fullstack Application Structure:**
 
 ```text
 TrustNet/
-├── mind-guard-toolkit-main/          # React Frontend
-│   ├── src/
-│   │   ├── components/               # UI Components
-│   │   ├── hooks/                    # React Hooks & API Integration
-│   │   ├── lib/                     # API Client & Configuration
-│   │   └── pages/                   # Application Pages
-│   └── package.json                 # Frontend Dependencies
-├── services/
-│   ├── api-python/                  # FastAPI Backend
-│   │   ├── app/                     # Application Logic
-│   │   ├── basic_server.py          # Simplified API Server
-│   │   └── requirements.txt         # Backend Dependencies
-│   └── workers/                     # Background Processing
-├── infra/                           # Infrastructure as Code
-└── docs/                           # Documentation
+â”œâ”€â”€ mind-guard-toolkit-main/          # React Frontend
+â”‚   â”œâ”€â”€ src/
+â”‚   â”‚   â”œâ”€â”€ components/               # UI Components
+â”‚   â”‚   â”œâ”€â”€ hooks/                    # React Hooks & API Integration
+â”‚   â”‚   â”œâ”€â”€ lib/                     # API Client & Configuration
+â”‚   â”‚   â””â”€â”€ pages/                   # Application Pages
+â”‚   â””â”€â”€ package.json                 # Frontend Dependencies
+â”œâ”€â”€ services/
+â”‚   â”œâ”€â”€ api-python/                  # FastAPI Backend
+â”‚   â”‚   â”œâ”€â”€ app/                     # Application Logic
+â”‚   â”‚   â”œâ”€â”€ basic_server.py          # Simplified API Server
+â”‚   â”‚   â””â”€â”€ requirements.txt         # Backend Dependencies
+â”‚   â””â”€â”€ workers/                     # Background Processing
+â”œâ”€â”€ infra/                           # Infrastructure as Code
+â””â”€â”€ docs/                           # Documentation
 ```
 
 **Technology Stack:**
@@ -72,37 +72,37 @@ TrustNet/
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed system design and deployment instructions.
 
-## ✨ Features
+## âœ¨ Features
 
-### 🔍 **Real-Time Content Analysis**
+### ðŸ” **Real-Time Content Analysis**
 
 - **Instant Trust Scoring**: Get immediate credibility assessment (0-100% scale)
 - **Manipulation Detection**: Identifies emotional appeals, urgency tactics, and bias
 - **Educational Insights**: Learn why content is flagged with detailed explanations
 - **Source Verification**: Automatic checking of URLs and domain reputation
 
-### 🎨 **Modern User Interface**
+### ðŸŽ¨ **Modern User Interface**
 
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
 - **Dark/Light Mode**: Automatic theme switching with user preference
 - **Real-time Feedback**: Live analysis with progress indicators
 - **File Upload Support**: Analyze documents, images, and text files
 
-### 🧠 **Digital Immunity Building**
+### ðŸ§  **Digital Immunity Building**
 
 - **Pattern Recognition**: Learn to identify manipulation techniques
 - **Educational Tips**: Context-aware guidance for each analysis
 - **Progressive Learning**: Build critical thinking skills over time
 - **Safe Testing Environment**: Practice with various content types
 
-### 🔄 **Seamless Integration**
+### ðŸ”„ **Seamless Integration**
 
 - **RESTful API**: Easy integration with external applications
 - **Real-time Processing**: Immediate results with streaming updates
 - **Cross-platform**: Works on all modern browsers and devices
 - **No Registration Required**: Start analyzing content immediately
 
-## 🔧 API Documentation
+## ðŸ”§ API Documentation
 
 ### Endpoints
 
@@ -166,7 +166,7 @@ analyzeContent({
 });
 ```
 
-## 💻 Development
+## ðŸ’» Development
 
 ### Frontend Development
 
@@ -224,7 +224,7 @@ The backend uses pydantic-settings for configuration management. Key settings in
 cd mind-guard-toolkit-main
 npm test
 
-# Backend tests  
+# Backend tests
 cd services/api-python
 python -m pytest
 
@@ -232,7 +232,7 @@ python -m pytest
 curl http://localhost:8000/health
 ```
 
-## 🚀 Deployment
+## ðŸš€ Deployment
 
 ### Production Build
 
@@ -249,7 +249,7 @@ npm run build
 - `VITE_ENABLE_ANALYTICS`: Enable/disable analytics
 - `VITE_ENABLE_DEBUG`: Debug mode toggle
 
-## 🤝 Contributing
+## ðŸ¤ Contributing
 
 We welcome contributions to TrustNet! Here's how you can help:
 
@@ -271,7 +271,7 @@ We welcome contributions to TrustNet! Here's how you can help:
    # Install frontend dependencies
    cd mind-guard-toolkit-main
    npm install
-   
+
    # Install backend dependencies
    cd ../services/api-python
    pip install -r requirements.txt
@@ -287,7 +287,7 @@ We welcome contributions to TrustNet! Here's how you can help:
    # Test frontend
    npm run build
    npm test
-   
+
    # Test backend
    python basic_server.py
    ```
@@ -314,18 +314,18 @@ We welcome contributions to TrustNet! Here's how you can help:
 
 ### Areas for Contribution
 
-- 🎨 **UI/UX Improvements**: Better animations, responsive design
-- 🔍 **Analysis Features**: New detection algorithms, better scoring
-- 📱 **Mobile Experience**: PWA features, offline capability
-- 🌍 **Internationalization**: Multi-language support
-- 🧪 **Testing**: Unit tests, integration tests, E2E tests
-- 📚 **Documentation**: Tutorials, API documentation, examples
+- ðŸŽ¨ **UI/UX Improvements**: Better animations, responsive design
+- ðŸ” **Analysis Features**: New detection algorithms, better scoring
+- ðŸ“± **Mobile Experience**: PWA features, offline capability
+- ðŸŒ **Internationalization**: Multi-language support
+- ðŸ§ª **Testing**: Unit tests, integration tests, E2E tests
+- ðŸ“š **Documentation**: Tutorials, API documentation, examples
 
-## 📄 License
+## ðŸ“„ License
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## ðŸ™ Acknowledgments
 
 - React and FastAPI communities for excellent frameworks
 - shadcn/ui for beautiful component library
@@ -334,6 +334,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-Built with ❤️ for digital literacy and misinformation resistance
+Built with â¤ï¸ for digital literacy and misinformation resistance
  
  
