@@ -1,4 +1,9 @@
-FROM node:18-alpine
+FROM node:18.20.2-alpine3.14
+
+# Update package index and upgrade packages to patch vulnerabilities
+RUN apk update && apk upgrade --no-cache
+
+# Optionally, run a vulnerability scan after building the image
 
 WORKDIR /app
 
