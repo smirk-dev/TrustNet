@@ -24,7 +24,10 @@ class Settings(BaseSettings):
     ALLOWED_ORIGINS: List[str] = [
         "http://localhost:3000",  # React dev server
         "http://localhost:5173",  # Vite dev server
-        "http://localhost:8080",  # Local API
+        "http://localhost:8080",  # Frontend app port (from package.json)
+        "http://127.0.0.1:3000",  # Alternative localhost
+        "http://127.0.0.1:5173",  # Alternative localhost  
+        "http://127.0.0.1:8080",  # Alternative localhost
         "https://trustnet.dev",   # Production frontend
         "https://api.trustnet.dev"  # Production API
     ]
