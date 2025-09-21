@@ -10,7 +10,7 @@ import random
 from ..core.logging import get_logger
 from ..core.database import db_manager
 from ..core.cache import cache_manager
-from ..models.schemas import FeedItem  # TrendingTopic, EngagementFeedback
+from ..models.schemas import FeedItem, TrendingTopic, EngagementFeedback
 
 logger = get_logger(__name__)
 
