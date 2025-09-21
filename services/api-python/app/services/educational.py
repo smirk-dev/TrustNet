@@ -170,7 +170,7 @@ class EducationalService:
         """Get basic item information."""
         return {"item_id": item_id, "exists": True}
     
-    async def process_engagement(self, item_id: str, engagement: Dict) -> Dict:
+    async def process_engagement(self, item_id: str, engagement: EngagementFeedback) -> Dict:
         """Process user engagement feedback."""
         try:
             logger.info(f"👍 Processing engagement for item: {item_id}")
