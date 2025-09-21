@@ -9,7 +9,7 @@ import time
 from datetime import datetime
 
 from ....models.schemas import (
-    ContentAnalysisRequest, ContentAnalysisResponse, ManipulationTechnique,
+    AnalysisRequest, ContentAnalysisResponse, ManipulationTechnique,
     EvidenceChain, ConfidenceScore, AnalysisEngine, TrustScore
 )
 from ....core.database import db_manager
