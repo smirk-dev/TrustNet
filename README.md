@@ -1,103 +1,335 @@
-# TrustNet
+# 🛡️ TrustNet - AI-Powered Misinformation Detection Platform
 
-AI-powered misinformation detection system for India using Google Cloud services.
+A comprehensive fullstack application that empowers users to identify misinformation and build digital immunity through AI-powered content analysis, educational insights, and real-time verification.
 
-## Quick Start
+![TrustNet](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![React](https://img.shields.io/badge/Frontend-React%2018.3.1-blue)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-green)
+![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue)
 
+## 🚀 Quick Start
+
+### Prerequisites
+- **Node.js** 18+ and npm
+- **Python** 3.11+
+- **Modern web browser**
+
+### 1. Clone & Setup
 ```bash
-# Clone repository
 git clone https://github.com/smirk-dev/TrustNet.git
 cd TrustNet
-
-# Set up Google Cloud project
-gcloud config set project trustnet-dev
-gcloud auth application-default login
-
-# Deploy infrastructure
-cd infra/terraform
-terraform init && terraform apply
-
-# Deploy services
-cd ../../scripts/deploy
-./deploy-services.sh
-
-# Run locally
-cd ../../services/api
-npm install && npm run dev
 ```
 
-## Architecture
+### 2. Start Backend Server
+```bash
+cd services/api-python
+pip install fastapi uvicorn pydantic
+python basic_server.py
+```
+**Backend will run on:** http://localhost:8000
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed system design, data models, and deployment instructions.
+### 3. Start Frontend Server
+```bash
+cd mind-guard-toolkit-main
+npm install
+npm run dev
+```
+**Frontend will run on:** http://localhost:8080
+
+### 4. Open Application
+Navigate to **http://localhost:8080** in your browser and start analyzing content!
+
+## 🏗️ Architecture
+
+**Fullstack Application Structure:**
+
+```text
+TrustNet/
+├── mind-guard-toolkit-main/          # React Frontend
+│   ├── src/
+│   │   ├── components/               # UI Components
+│   │   ├── hooks/                    # React Hooks & API Integration
+│   │   ├── lib/                     # API Client & Configuration
+│   │   └── pages/                   # Application Pages
+│   └── package.json                 # Frontend Dependencies
+├── services/
+│   ├── api-python/                  # FastAPI Backend
+│   │   ├── app/                     # Application Logic
+│   │   ├── basic_server.py          # Simplified API Server
+│   │   └── requirements.txt         # Backend Dependencies
+│   └── workers/                     # Background Processing
+├── infra/                           # Infrastructure as Code
+└── docs/                           # Documentation
+```
+
+**Technology Stack:**
+
+- **Frontend**: React 18.3.1, TypeScript, Vite, TanStack Query, shadcn/ui
+- **Backend**: Python FastAPI, Pydantic, Uvicorn
+- **Styling**: Tailwind CSS with animations and dark mode
+- **State Management**: TanStack Query for server state
+- **Build Tool**: Vite for fast development and optimized builds
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed system design and deployment instructions.
 
 ## Features
 
-### 🔍 **Automated Verification Engine** (MVP Priority #1)
-- **Instant Credibility Scoring**: Get immediate assessment of content trustworthiness
-- **Source Analysis**: Automated checking of URLs and domain reputation
-- **Neutral AI Summaries**: Unbiased summaries of claims with alternative perspectives
-- **High Manipulation Alerts**: Combined detection for emotional triggers + synthetic media
+## ✨ Features
 
-### 🏠 **Quarantine Room** (MVP Priority #2)  
-- **Human-AI Collaboration**: When AI is uncertain, users provide the final judgment
-- **Educational Context**: Learn why content is suspicious through interactive analysis
-- **User Empowerment**: Build critical thinking skills by reviewing "grey area" content
-- **Feedback Loop**: User verdicts improve AI detection for everyone
+### 🔍 **Real-Time Content Analysis**
 
-### 📚 **Proactive Homepage Feed** (MVP Priority #3)
-- **Real-World Examples**: Curated verified and debunked information for continuous learning
-- **Pattern Recognition**: Learn to identify manipulation techniques through examples
-- **Trending Analysis**: Stay aware of current misinformation patterns in your language
-- **Engagement Tracking**: Educational content that adapts based on user interaction
+- **Instant Trust Scoring**: Get immediate credibility assessment (0-100% scale)
+- **Manipulation Detection**: Identifies emotional appeals, urgency tactics, and bias
+- **Educational Insights**: Learn why content is flagged with detailed explanations
+- **Source Verification**: Automatic checking of URLs and domain reputation
 
-### 🛡️ **Advanced Detection Principles**
-- **Emotional Manipulation**: Identifies urgency, fear appeals, and pressure tactics
-- **Unrealistic Incentives**: Flags too-good-to-be-true offers and get-rich-quick schemes  
-- **Technical Deception**: Detects link masking, impersonation, and fake credentials
-- **Synthetic Media**: AI-generated text and image detection with confidence scoring
-- **Visual Analysis**: Highlights suspicious areas in images and data visualizations
+### � **Modern User Interface**
 
-### 🌐 **No-Login MVP Experience**
-- **Friction-Free Access**: Start verifying content immediately without registration
-- **Privacy-First**: Minimal data collection with optional engagement tracking
-- **Mobile Optimized**: Works seamlessly on low-end Android devices with limited bandwidth
+- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
+- **Dark/Light Mode**: Automatic theme switching with user preference
+- **Real-time Feedback**: Live analysis with progress indicators
+- **File Upload Support**: Analyze documents, images, and text files
 
-## API Usage
+### 🧠 **Digital Immunity Building**
 
+- **Pattern Recognition**: Learn to identify manipulation techniques
+- **Educational Tips**: Context-aware guidance for each analysis
+- **Progressive Learning**: Build critical thinking skills over time
+- **Safe Testing Environment**: Practice with various content types
+
+### 🔄 **Seamless Integration**
+
+- **RESTful API**: Easy integration with external applications
+- **Real-time Processing**: Immediate results with streaming updates
+- **Cross-platform**: Works on all modern browsers and devices
+- **No Registration Required**: Start analyzing content immediately
+
+## 🔧 API Documentation
+
+### Endpoints
+
+**Health Check**
 ```bash
-# Analyze text content
-curl -X POST https://api.trustnet.dev/v1/analyze \
-  -H "Content-Type: application/json" \
-  -d '{"text": "वैक्सीन में माइक्रोचिप्स होती हैं", "language": "hi"}'
-
-# Get analysis results
-curl https://api.trustnet.dev/v1/claims/{claim-id}
+GET http://localhost:8000/health
+# Response: {"status": "healthy"}
 ```
 
-## Development
+**Content Analysis**
+```bash
+POST http://localhost:8000/v1/analysis
+Content-Type: application/json
+
+{
+  "content": "Your content to analyze here",
+  "content_type": "text",
+  "user_id": "anonymous"
+}
+```
+
+**Response Format**
+```json
+{
+  "analysis_id": "test_1234567890",
+  "trust_score": {
+    "overall_score": 0.75,
+    "credibility": 0.78,
+    "bias_score": 0.5,
+    "emotional_manipulation": 0.25,
+    "source_reliability": 0.75
+  },
+  "analysis_summary": "Content analysis results...",
+  "manipulation_techniques": [],
+  "educational_content": "Educational insights...",
+  "metadata": {
+    "word_count": 10,
+    "sources": ["Source 1"]
+  },
+  "timestamp": 1234567890.123
+}
+```
+
+### Frontend API Integration
+
+The frontend uses TanStack Query for efficient API state management:
+
+```typescript
+import { useAnalysis } from '@/hooks/useApi';
+
+const { analyzeContent, isAnalyzing, data, error } = useAnalysis();
+
+// Analyze content
+analyzeContent({
+  content: "Text to analyze",
+  content_type: "text",
+  user_id: "user123"
+});
+```
+
+## 💻 Development
+
+### Frontend Development
 
 ```bash
+cd mind-guard-toolkit-main
+
 # Install dependencies
 npm install
-
-# Run tests
-npm test
 
 # Start development server
 npm run dev
 
-# Deploy to staging
-npm run deploy:staging
+# Build for production
+npm run build
+
+# Run linting
+npm run lint
 ```
 
-## Contributing
+### Backend Development
 
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+```bash
+cd services/api-python
 
-## License
+# Install dependencies
+pip install fastapi uvicorn pydantic pydantic-settings
+
+# Start development server
+python basic_server.py
+
+# Run with auto-reload
+python -m uvicorn basic_server:app --reload --port 8000
+```
+
+### Environment Configuration
+
+Create environment files for different environments:
+
+**Frontend (.env.development)**
+```bash
+VITE_API_BASE_URL=http://localhost:8000
+VITE_NODE_ENV=development
+VITE_ENABLE_DEBUG=true
+```
+
+**Backend Configuration**
+The backend uses pydantic-settings for configuration management. Key settings include CORS origins, API endpoints, and feature flags.
+
+### Testing
+
+```bash
+# Frontend tests
+cd mind-guard-toolkit-main
+npm test
+
+# Backend tests  
+cd services/api-python
+python -m pytest
+
+# API testing
+curl http://localhost:8000/health
+```
+
+## 🚀 Deployment
+
+### Production Build
+
+```bash
+# Build frontend
+npm run build
+
+# Serve static files or deploy to CDN
+```
+
+### Environment Variables
+
+- `VITE_API_BASE_URL`: Backend API URL
+- `VITE_ENABLE_ANALYTICS`: Enable/disable analytics
+- `VITE_ENABLE_DEBUG`: Debug mode toggle
+
+## 🤝 Contributing
+
+We welcome contributions to TrustNet! Here's how you can help:
+
+### Getting Started
+
+1. **Fork the repository**
+   ```bash
+   git clone https://github.com/your-username/TrustNet.git
+   cd TrustNet
+   ```
+
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Set up development environment**
+   ```bash
+   # Install frontend dependencies
+   cd mind-guard-toolkit-main
+   npm install
+   
+   # Install backend dependencies
+   cd ../services/api-python
+   pip install -r requirements.txt
+   ```
+
+4. **Make your changes**
+   - Follow the existing code style
+   - Add tests for new features
+   - Update documentation as needed
+
+5. **Test your changes**
+   ```bash
+   # Test frontend
+   npm run build
+   npm test
+   
+   # Test backend
+   python basic_server.py
+   ```
+
+6. **Commit and push**
+   ```bash
+   git add .
+   git commit -m 'Add amazing feature'
+   git push origin feature/amazing-feature
+   ```
+
+7. **Open a Pull Request**
+   - Describe your changes clearly
+   - Reference any related issues
+   - Wait for review and feedback
+
+### Development Guidelines
+
+- **Code Style**: Follow TypeScript/Python best practices
+- **Testing**: Add tests for new functionality
+- **Documentation**: Update README and code comments
+- **Performance**: Consider impact on load times and user experience
+- **Accessibility**: Ensure UI components are accessible
+
+### Areas for Contribution
+
+- 🎨 **UI/UX Improvements**: Better animations, responsive design
+- 🔍 **Analysis Features**: New detection algorithms, better scoring
+- 📱 **Mobile Experience**: PWA features, offline capability
+- 🌍 **Internationalization**: Multi-language support
+- 🧪 **Testing**: Unit tests, integration tests, E2E tests
+- 📚 **Documentation**: Tutorials, API documentation, examples
+
+## 📄 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- React and FastAPI communities for excellent frameworks
+- shadcn/ui for beautiful component library
+- TanStack Query for efficient state management
+- All contributors and users of TrustNet
+
+---
+
+Built with ❤️ for digital literacy and misinformation resistance 
+ 
