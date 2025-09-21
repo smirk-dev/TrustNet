@@ -529,6 +529,16 @@ class CommunityStats(BaseModel):
     generated_at: datetime = Field(default_factory=datetime.utcnow)
 
 
+class UserContribution(BaseModel):
+    """User contribution tracking."""
+    user_id: str
+    contribution_type: str
+    contribution_count: int = 0
+    quality_score: float = Field(default=0.0, ge=0, le=1)
+    points_earned: int = 0
+    badges: List[str] = Field(default_factory=list)
+
+
 class ValidationError(BaseModel):
     """Validation error response."""
     error: str = "validation_error"
