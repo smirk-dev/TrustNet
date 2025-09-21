@@ -52,14 +52,14 @@ async def analyze_content(
         
         # Start background analysis
         analysis_id = await analysis_service.start_analysis(
-            content=analysis_request.content,
-            analysis_type=analysis_request.analysis_type,
-            priority=analysis_request.priority,
-            metadata=analysis_request.metadata
+            content=analysis_request.text,
+            analysis_type="comprehensive",
+            priority=str(analysis_request.priority) if analysis_request.priority else "normal",
+            metadata={"source_type": str(analysis_request.source_type)}
         )
         
         # Run initial quick analysis for immediate response
-        quick_analysis = await analysis_service.quick_analysis(analysis_request.content)
+        quick_analysis = await analysis_service.quick_analysis(analysis_request.text)
         
         # Schedule comprehensive analysis in background
         background_tasks.add_task(
