@@ -202,8 +202,8 @@ class Feedback(UUIDModel, TimestampedModel):
 class VerificationRequest(BaseModel):
     """Request model for content verification."""
     text: str = Field(..., min_length=10, max_length=10000)
-    urls: Optional[List[HttpUrl]] = Field(default=None, max_items=5)
-    images: Optional[List[HttpUrl]] = Field(default=None, max_items=3)
+    urls: Optional[List[HttpUrl]] = Field(default=None, max_length=5)
+    images: Optional[List[HttpUrl]] = Field(default=None, max_length=3)
     language: Optional[LanguageCode] = Field(default=LanguageCode.ENGLISH)
     source_type: Optional[SourceType] = Field(default=SourceType.WEB)
     priority: Optional[Priority] = Field(default=Priority.NORMAL)
