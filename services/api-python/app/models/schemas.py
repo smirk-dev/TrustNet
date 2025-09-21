@@ -282,7 +282,7 @@ class QuarantineItem(BaseModel):
 
 class UserVerdict(BaseModel):
     """User verdict submission."""
-    user_verdict: str = Field(..., regex="^(legit|misleading|needs_more_info)$")
+    user_verdict: str = Field(..., pattern="^(legit|misleading|needs_more_info)$")
     confidence: int = Field(..., ge=1, le=5)
     reasoning: Optional[str] = Field(None, max_length=500)
     user_expertise: UserExpertise = Field(default=UserExpertise.GENERAL_PUBLIC)
