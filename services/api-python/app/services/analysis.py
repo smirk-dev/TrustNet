@@ -102,7 +102,7 @@ class AnalysisService:
                 "findings": quick_findings,
                 "manipulation_techniques": manipulation_techniques,
                 "trust_score": TrustScore(
-                    score=max(0.0, min(1.0, trust_score)),
+                    overall_score=max(0.0, min(1.0, trust_score)),
                     confidence=confidence_score,
                     factors={
                         "emotional_language": -0.2 if has_emotional_language else 0,
