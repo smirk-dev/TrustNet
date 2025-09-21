@@ -518,6 +518,17 @@ class TrustScore(BaseModel):
         }
 
 
+class CommunityStats(BaseModel):
+    """Community statistics and metrics."""
+    total_users: int = 0
+    active_users_today: int = 0
+    total_claims_processed: int = 0
+    accuracy_rate: float = Field(default=0.0, ge=0, le=1)
+    community_consensus_rate: float = Field(default=0.0, ge=0, le=1)
+    top_contributors: List[str] = Field(default_factory=list)
+    generated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
 class ValidationError(BaseModel):
     """Validation error response."""
     error: str = "validation_error"
