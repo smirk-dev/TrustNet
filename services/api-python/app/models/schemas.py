@@ -390,11 +390,19 @@ class FeedItemDetail(BaseModel):
 
 
 class EngagementFeedback(BaseModel):
-    """Feed engagement feedback."""
-    engagement_type: str = Field(..., pattern="^(helpful|confusing|learned_something|share_worthy)$")
-    rating: int = Field(..., ge=1, le=5)
-    comments: Optional[str] = Field(None, max_length=500)
+    """User engagement feedback on educational content."""
+    item_id: str
+    user_id: Optional[str] = None
+    engagement_type: str = Field(..., pattern="^(like|dislike|share|save|helpful|not_helpful|confusing|learned_something|share_worthy)$")
+    feedback_text: Optional[str] = Field(None, max_length=500)
+    rating: Optional[int] = Field(None, ge=1, le=5)
     time_spent_seconds: Optional[int] = None
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
 
 class TrendingPatterns(BaseModel):
