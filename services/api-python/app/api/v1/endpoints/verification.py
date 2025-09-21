@@ -4,7 +4,7 @@ MVP Priority #1: Automated Verification Engine
 """
 
 from fastapi import APIRouter, HTTPException, BackgroundTasks, Request
-from typing import Union
+from typing import Union, List
 import asyncio
 import hashlib
 import time
