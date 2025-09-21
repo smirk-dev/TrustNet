@@ -201,15 +201,15 @@ export function NewsAnalyzer() {
       </Card>
 
       {/* Results Section */}
-      {analysisResult && (
+      {transformedResult && (
         <div className="space-y-8 animate-slideUp">
-          <AnalysisResult data={analysisResult} />
-          <DigitalImmunityTip tip={analysisResult.immunityTip} />
+          <AnalysisResult data={transformedResult} />
+          <DigitalImmunityTip tip={transformedResult.immunityTip} />
         </div>
       )}
 
       {/* Quick Tips */}
-      {!analysisResult && (
+      {!transformedResult && (
         <Card className="shadow-medium border-accent/20 hover:shadow-glow transition-all duration-300">
           <CardHeader className="pb-4">
             <CardTitle className="text-xl flex items-center gap-3">
