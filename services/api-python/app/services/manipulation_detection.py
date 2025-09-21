@@ -15,7 +15,7 @@ logger = get_logger(__name__)
 class ManipulationDetector:
     """Service for detecting manipulation techniques in content."""
     
-    async def detect_techniques(self, content: str, deep_analysis: bool = False) -> List[ManipulationTechnique]:
+    async def detect_techniques(self, content: str, deep_analysis: bool = False) -> List[ManipulationIndicator]:
         """Detect manipulation techniques in content."""
         try:
             logger.info(f"🎭 Detecting manipulation techniques (deep={deep_analysis})")
@@ -112,7 +112,7 @@ class ManipulationDetector:
             logger.error(f"❌ Manipulation detection failed: {e}")
             return []
     
-    async def _deep_analysis_techniques(self, content: str) -> List[ManipulationTechnique]:
+    async def _deep_analysis_techniques(self, content: str) -> List[ManipulationIndicator]:
         """Perform deep analysis for advanced manipulation techniques."""
         advanced_techniques = []
         
