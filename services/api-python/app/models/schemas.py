@@ -354,7 +354,7 @@ class FeedItem(BaseModel):
     engagement_score: float = Field(default=0.0)
     published_at: datetime
     source_attribution: Optional[str] = None
-    category: Optional[str] = Field(None, regex="^(health|politics|finance|social)$")
+    category: Optional[str] = Field(None, pattern="^(health|politics|finance|social)$")
     
     class Config:
         json_encoders = {
